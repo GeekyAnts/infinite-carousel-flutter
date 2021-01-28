@@ -29,6 +29,7 @@ class InfiniteCarousel extends StatefulWidget {
     this.loop = true,
     this.velocityFactor = 0.2,
     this.axisDirection = Axis.horizontal,
+    this.center = true,
   })  : assert(itemBuilder != null),
         assert(itemExtent != null && itemExtent > 0),
         assert(itemCount != null && itemCount > 0),
@@ -78,10 +79,12 @@ class InfiniteCarousel extends StatefulWidget {
   final void Function(int) onIndexChanged;
 
   /// Where to place selected item on the viewport. Ranges from 0 to 1.
-  /// 
+  ///
   /// 0.0 means selected item is aligned to start of the viewport, and
   /// 1.0 meaning selected item is aligned to end of the viewport.
   /// Defaults to 0.0.
+  ///
+  /// This property is ignored when center is set to true.
   final double anchor;
 
   /// Weather to create a infinite looping list. Defaults to true.
@@ -92,6 +95,9 @@ class InfiniteCarousel extends StatefulWidget {
 
   /// Multiply velocity of carousel scrolling by this factor. Defaults to 0.2.
   final double velocityFactor;
+
+  /// Align selected item to center of the viewport. When this is true, anchor property is ignored.
+  final bool center;
 
   @override
   _InfiniteCarouselState createState() => _InfiniteCarouselState();
@@ -149,25 +155,39 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
         }
         return false;
       },
-      child: _InfiniteScrollable(
-        controller: scrollController,
-        itemExtent: widget.itemExtent,
-        loop: widget.loop,
-        velocityFactor: widget.velocityFactor,
-        itemCount: widget.itemCount,
-        physics: widget.physics ?? InfiniteScrollPhysics(),
-        axisDirection: axisDirection,
-        viewportBuilder: (BuildContext context, ViewportOffset position) {
-          return Viewport(
-            center: _forwardListKey,
-            anchor: widget.anchor,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final _centeredAnchor = _getCenteredAnchor(constraints);
+
+          return _InfiniteScrollable(
+            controller: scrollController,
+            itemExtent: widget.itemExtent,
+            loop: widget.loop,
+            velocityFactor: widget.velocityFactor,
+            itemCount: widget.itemCount,
+            physics: widget.physics ?? InfiniteScrollPhysics(),
             axisDirection: axisDirection,
-            offset: position,
-            slivers: _buildSlivers(),
+            viewportBuilder: (BuildContext context, ViewportOffset position) {
+              return Viewport(
+                center: _forwardListKey,
+                anchor: _centeredAnchor ?? widget.anchor,
+                axisDirection: axisDirection,
+                offset: position,
+                slivers: _buildSlivers(),
+              );
+            },
           );
         },
       ),
     );
+  }
+
+  // Get anchor for viewport to place the item in exact center.
+  double _getCenteredAnchor(BoxConstraints constraints) {
+    if (!widget.center) return null;
+
+    final total = widget.axisDirection == Axis.horizontal ? constraints.maxWidth : constraints.maxHeight;
+    return ((total / 2) - (widget.itemExtent / 2)) / total;
   }
 }
 

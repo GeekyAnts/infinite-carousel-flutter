@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 
-import 'mock_data.dart';
+import 'screens/complex.dart';
+import 'screens/horizontal.dart';
+import 'screens/vertical.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,63 +54,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: Text(widget.title)),
       body: Column(
         children: [
-          SizedBox(
-            height: 200,
-            child: InfiniteCarousel.builder(
-              itemCount: kDemoImages.length,
-              itemExtent: 120,
-              center: false,
-              anchor: 0.1,
-              velocityFactor: 0.5,
-              onIndexChanged: (index) {
-                if (selectedIndex != index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                }
-              },
-              controller: controller,
-              itemBuilder: (context, itemIndex, realIndex) {
-                final currentOffset = 120 * realIndex;
-                return AnimatedBuilder(
-                  animation: controller,
-                  builder: (context, child) {
-                    final diff = (controller.offset - currentOffset);
-                    final maxPadding = 10.0;
-                    final _carouselRatio = 120 / maxPadding;
-
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        top: (diff / _carouselRatio).abs(),
-                        bottom: (diff / _carouselRatio).abs(),
-                      ),
-                      child: child,
-                    );
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.animateToItem(realIndex);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          boxShadow: kElevationToShadow[2],
-                          image: DecorationImage(
-                            image: NetworkImage(kDemoImages[itemIndex]),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+          RaisedButton(
+            child: Text('Horizontal example'),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Horizontal()));
+            },
           ),
-          SizedBox(height: 20),
-          Text('$selectedIndex'),
+          RaisedButton(
+            child: Text('Vertical example'),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Vertical()));
+            },
+          ),
+          RaisedButton(
+            child: Text('Complex example'),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Complex()));
+            },
+          ),
         ],
       ),
     );

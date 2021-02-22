@@ -1,8 +1,7 @@
 name: infinite_carousel
-description: Carousel in flutter. Supports infinite looping.
+description: Carousel in flutter. Supports infinite looping and gives control over anchor and velocity.
 version: 0.0.1
-author: Manuinder Sekhon
-homepage:
+homepage: # TODO:
 
 environment:
   sdk: '>=2.7.0 <3.0.0'

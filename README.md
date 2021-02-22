@@ -1,10 +1,23 @@
 # Infinite Carousel
 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+
 _Infinite Carousel_ is a flutter carousel widget that supports infinite looping and gives precise control over selected item anchor and carousel scroll velocity.
 
 You can easily customize the placement of selected element on the viewport, and increase/decrease scroll speed.
 
 Based on Flutter's ListWheelScrollView to create smooth scroll effects.
+
+![](./demo/horizontal.gif)
+![](./demo/complex.gif)
+![](./demo/vertical.gif)
+
+# Features
+
+- Allows you to control placement of selected item on viewport (unlike pageview which always has its page in the center of viewport).
+- Gives control over **velocity** of scrolling.
+- Added **friction effect** to slow down the carousel after scrolling.
+- Supports both horizontal and vertical axis.
 
 # Usage
 
@@ -63,4 +76,9 @@ It also supports its own scroll controller called _`InfiniteScrollController`_ w
 | axisDirection  | Axis                                                        | Axis direction of carousel.                                                                                                                                                                                                                                                                                                                                                                                                                                    | Axis.horizontal          |
 | center         | bool                                                        | Align selected item to center of the viewport. When this is true, anchor property is ignored.                                                                                                                                                                                                                                                                                                                                                                  | true                     |
 
+## Contributing
 
+Contributions of all kinds are welcome. Please read the [guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md) before contributing.
+
+
+Images used in the gifs belong to their original authors and the links can be found in example project.

@@ -1,4 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - Feb 23, 2021
 
 - Support infinite looping.
 - Add anchor control and center attribute.

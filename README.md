@@ -8,9 +8,9 @@ You can easily customize the placement of selected element on the viewport, and 
 
 Based on Flutter's ListWheelScrollView to create smooth scroll effects.
 
-![](./demo/horizontal.gif)
-![](./demo/complex.gif)
-![](./demo/vertical.gif)
+![](https://github.com/GeekyAnts/infinite-carousel-flutter/blob/main/demo/complex.gif?raw=true)
+![](https://github.com/GeekyAnts/infinite-carousel-flutter/blob/main/demo/horizontal.gif?raw=true)
+![](https://github.com/GeekyAnts/infinite-carousel-flutter/blob/main/demo/vertical.gif?raw=true)
 
 # Features
 

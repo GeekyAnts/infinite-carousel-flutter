@@ -25,7 +25,7 @@ Add the package to `pubspec.yaml`
 
 ```yaml
 dependencies:
-  infinite_carousel: 0.0.1
+  infinite_carousel: 0.0.2
 ```
 
 After that import the package.

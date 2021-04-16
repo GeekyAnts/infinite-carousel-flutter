@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  InfiniteScrollController controller;
+  late InfiniteScrollController controller;
   int selectedIndex = 0;
 
   @override
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     super.dispose();
-    controller?.dispose();
+    controller.dispose();
   }
 
   @override
@@ -54,22 +54,25 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: Text(widget.title)),
       body: Column(
         children: [
-          RaisedButton(
+          ElevatedButton(
             child: Text('Horizontal example'),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Horizontal()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Horizontal()));
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text('Vertical example'),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Vertical()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Vertical()));
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text('Complex example'),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Complex()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Complex()));
             },
           ),
         ],

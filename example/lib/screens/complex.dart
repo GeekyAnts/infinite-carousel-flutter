@@ -12,7 +12,7 @@ class _ComplexState extends State<Complex> {
   double _anchor = 0.0;
   bool _center = true;
   double _velocityFactor = 0.2;
-  InfiniteScrollController _controller;
+  late InfiniteScrollController _controller;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _ComplexState extends State<Complex> {
   @override
   void dispose() {
     super.dispose();
-    _controller?.dispose();
+    _controller.dispose();
   }
 
   @override

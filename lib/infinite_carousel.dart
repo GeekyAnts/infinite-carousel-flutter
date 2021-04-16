@@ -18,10 +18,10 @@ class InfiniteCarousel extends StatefulWidget {
   ///
   /// Based on [ListWheelScrollView] to create smooth scroll effect and physics.
   InfiniteCarousel.builder({
-    Key key,
-    @required this.itemCount,
-    @required this.itemExtent,
-    @required this.itemBuilder,
+    Key? key,
+    required this.itemCount,
+    required this.itemExtent,
+    required this.itemBuilder,
     this.physics,
     this.controller,
     this.onIndexChanged,
@@ -30,12 +30,9 @@ class InfiniteCarousel extends StatefulWidget {
     this.velocityFactor = 0.2,
     this.axisDirection = Axis.horizontal,
     this.center = true,
-  })  : assert(itemBuilder != null),
-        assert(itemExtent != null && itemExtent > 0),
-        assert(itemCount != null && itemCount > 0),
-        assert(velocityFactor != null &&
-            velocityFactor > 0.0 &&
-            velocityFactor <= 1.0),
+  })  : assert(itemExtent > 0),
+        assert(itemCount > 0),
+        assert(velocityFactor > 0.0 && velocityFactor <= 1.0),
         childDelegate = SliverChildBuilderDelegate(
           (context, index) =>
               itemBuilder(context, index.abs() % itemCount, index),
@@ -69,20 +66,20 @@ class InfiniteCarousel extends StatefulWidget {
       itemBuilder;
 
   /// Delegate to lazily build items in forward direction.
-  final SliverChildDelegate childDelegate;
+  final SliverChildDelegate? childDelegate;
 
   /// Delegate to lazily build items in reverse direction.
-  final SliverChildDelegate reversedChildDelegate;
+  final SliverChildDelegate? reversedChildDelegate;
 
   /// Physics for [InfiniteCarousel]. Defaults to [InfiniteScrollPhysics], which makes sure we always land on a
   /// particular item after scrolling.
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   /// Scroll controller for [InfiniteScrollPhysics].
-  final ScrollController controller;
+  final ScrollController? controller;
 
   /// Callback fired when item is changed.
-  final void Function(int) onIndexChanged;
+  final void Function(int)? onIndexChanged;
 
   /// Where to place selected item on the viewport. Ranges from 0 to 1.
   ///
@@ -111,26 +108,30 @@ class InfiniteCarousel extends StatefulWidget {
 
 class _InfiniteCarouselState extends State<InfiniteCarousel> {
   final Key _forwardListKey = ValueKey<String>('infinite_carousel_key');
-  InfiniteScrollController scrollController;
-  int _lastReportedItemIndex;
+  late InfiniteScrollController scrollController;
+  late int _lastReportedItemIndex;
 
   @override
   void initState() {
     super.initState();
-    scrollController = widget.controller ?? InfiniteScrollController();
+    if (widget.controller != null) {
+      scrollController = widget.controller as InfiniteScrollController;
+    } else {
+      scrollController = InfiniteScrollController();
+    }
     _lastReportedItemIndex = scrollController.initialItem;
   }
 
   List<Widget> _buildSlivers() {
     Widget forward = SliverFixedExtentList(
         key: _forwardListKey,
-        delegate: widget.childDelegate,
+        delegate: widget.childDelegate!,
         itemExtent: widget.itemExtent);
 
     if (!widget.loop) return [forward];
 
     Widget reversed = SliverFixedExtentList(
-        delegate: widget.reversedChildDelegate, itemExtent: widget.itemExtent);
+        delegate: widget.reversedChildDelegate!, itemExtent: widget.itemExtent);
     return [reversed, forward];
   }
 
@@ -145,7 +146,6 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
       case Axis.vertical:
         return AxisDirection.down;
     }
-    return null;
   }
 
   @override
@@ -162,7 +162,9 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
             _lastReportedItemIndex = currentItem;
             final int trueIndex =
                 _getTrueIndex(_lastReportedItemIndex, widget.itemCount);
-            widget.onIndexChanged(trueIndex);
+            if (widget.onIndexChanged != null) {
+              widget.onIndexChanged!(trueIndex);
+            }
           }
         }
         return false;
@@ -182,7 +184,7 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
             viewportBuilder: (BuildContext context, ViewportOffset position) {
               return Viewport(
                 center: _forwardListKey,
-                anchor: _centeredAnchor ?? widget.anchor,
+                anchor: _centeredAnchor,
                 axisDirection: axisDirection,
                 offset: position,
                 slivers: _buildSlivers(),
@@ -196,7 +198,7 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
 
   // Get anchor for viewport to place the item in exact center.
   double _getCenteredAnchor(BoxConstraints constraints) {
-    if (!widget.center) return null;
+    if (!widget.center) return widget.anchor;
 
     final total = widget.axisDirection == Axis.horizontal
         ? constraints.maxWidth
@@ -209,15 +211,15 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
 /// This is done so that ScrollPosition and Physics can also access these values via scroll context.
 class _InfiniteScrollable extends Scrollable {
   const _InfiniteScrollable({
-    Key key,
+    Key? key,
     AxisDirection axisDirection = AxisDirection.right,
-    ScrollController controller,
-    ScrollPhysics physics,
-    @required this.itemExtent,
-    @required this.itemCount,
-    @required this.loop,
-    @required this.velocityFactor,
-    @required ViewportBuilder viewportBuilder,
+    ScrollController? controller,
+    ScrollPhysics? physics,
+    required this.itemExtent,
+    required this.itemCount,
+    required this.loop,
+    required this.velocityFactor,
+    required ViewportBuilder viewportBuilder,
   }) : super(
           key: key,
           axisDirection: axisDirection,
@@ -245,8 +247,7 @@ class _InfiniteScrollableState extends ScrollableState {
 /// Scroll controller for [InfiniteCarousel].
 class InfiniteScrollController extends ScrollController {
   /// Scroll controller for [InfiniteCarousel].
-  InfiniteScrollController({this.initialItem = 0})
-      : assert(initialItem != null);
+  InfiniteScrollController({this.initialItem = 0});
 
   /// Initial item index for [InfiniteScrollController]. Defaults to 0.
   final int initialItem;
@@ -305,7 +306,7 @@ class InfiniteScrollController extends ScrollController {
 
   @override
   ScrollPosition createScrollPosition(ScrollPhysics physics,
-      ScrollContext context, ScrollPosition oldPosition) {
+      ScrollContext context, ScrollPosition? oldPosition) {
     return _InfiniteScrollPosition(
       physics: physics,
       context: context,
@@ -319,12 +320,12 @@ class InfiniteScrollController extends ScrollController {
 /// This can directly be accessed by ScrollNotification to currently selected real item index at any time.
 class InfiniteExtentMetrics extends FixedScrollMetrics {
   InfiniteExtentMetrics({
-    @required double minScrollExtent,
-    @required double maxScrollExtent,
-    @required double pixels,
-    @required double viewportDimension,
-    @required AxisDirection axisDirection,
-    @required this.itemIndex,
+    required double? minScrollExtent,
+    required double? maxScrollExtent,
+    required double? pixels,
+    required double? viewportDimension,
+    required AxisDirection axisDirection,
+    required this.itemIndex,
   }) : super(
           minScrollExtent: minScrollExtent,
           maxScrollExtent: maxScrollExtent,
@@ -335,12 +336,12 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
 
   @override
   InfiniteExtentMetrics copyWith({
-    double minScrollExtent,
-    double maxScrollExtent,
-    double pixels,
-    double viewportDimension,
-    AxisDirection axisDirection,
-    int itemIndex,
+    double? minScrollExtent,
+    double? maxScrollExtent,
+    double? pixels,
+    double? viewportDimension,
+    AxisDirection? axisDirection,
+    int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
       minScrollExtent: minScrollExtent ?? this.minScrollExtent,
@@ -356,11 +357,12 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
   final int itemIndex;
 }
 
-int _getItemFromOffset(
-    {double offset,
-    double itemExtent,
-    double minScrollExtent,
-    double maxScrollExtent}) {
+int _getItemFromOffset({
+  required double offset,
+  required double itemExtent,
+  required double minScrollExtent,
+  required double maxScrollExtent,
+}) {
   return (_clipOffsetToScrollableRange(
               offset, minScrollExtent, maxScrollExtent) /
           itemExtent)
@@ -369,8 +371,7 @@ int _getItemFromOffset(
 
 double _clipOffsetToScrollableRange(
     double offset, double minScrollExtent, double maxScrollExtent) {
-  return math.min(
-      math.max(offset, minScrollExtent ?? 0.0), maxScrollExtent ?? 0.0);
+  return math.min(math.max(offset, minScrollExtent), maxScrollExtent);
 }
 
 /// Get the modded item index from real index.
@@ -385,12 +386,12 @@ int _getTrueIndex(int currentIndex, int totalCount) {
 class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
     implements InfiniteExtentMetrics {
   _InfiniteScrollPosition({
-    @required ScrollPhysics physics,
-    @required ScrollContext context,
-    @required int initialItem,
+    required ScrollPhysics physics,
+    required ScrollContext context,
+    required int initialItem,
     bool keepScrollOffset = true,
-    ScrollPosition oldPosition,
-    String debugLabel,
+    ScrollPosition? oldPosition,
+    String? debugLabel,
   })  : assert(context is _InfiniteScrollableState),
         super(
           physics: physics,
@@ -437,12 +438,12 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
 
   @override
   InfiniteExtentMetrics copyWith({
-    double minScrollExtent,
-    double maxScrollExtent,
-    double pixels,
-    double viewportDimension,
-    AxisDirection axisDirection,
-    int itemIndex,
+    double? minScrollExtent,
+    double? maxScrollExtent,
+    double? pixels,
+    double? viewportDimension,
+    AxisDirection? axisDirection,
+    int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
       minScrollExtent: minScrollExtent ?? this.minScrollExtent,
@@ -462,10 +463,10 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
 /// If loop => false, friction is applied when user tries to go beyond Viewport area.
 /// Friction factor is calculated the way its done in BouncingScrollPhycics.
 class InfiniteScrollPhysics extends ScrollPhysics {
-  const InfiniteScrollPhysics({ScrollPhysics parent}) : super(parent: parent);
+  const InfiniteScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
 
   @override
-  InfiniteScrollPhysics applyTo(ScrollPhysics ancestor) {
+  InfiniteScrollPhysics applyTo(ScrollPhysics? ancestor) {
     return InfiniteScrollPhysics(parent: buildParent(ancestor));
   }
 
@@ -516,7 +517,7 @@ class InfiniteScrollPhysics extends ScrollPhysics {
   }
 
   @override
-  Simulation createBallisticSimulation(
+  Simulation? createBallisticSimulation(
       ScrollMetrics position, double velocity) {
     final _InfiniteScrollPosition metrics = position as _InfiniteScrollPosition;
 
@@ -530,7 +531,7 @@ class InfiniteScrollPhysics extends ScrollPhysics {
 
     // Create a test simulation to see where it would have ballistically fallen
     // naturally without settling onto items.
-    final Simulation testFrictionSimulation = super.createBallisticSimulation(
+    final Simulation? testFrictionSimulation = super.createBallisticSimulation(
       metrics,
       velocity * math.min(metrics.velocityFactor + 0.15, 1.0),
     );

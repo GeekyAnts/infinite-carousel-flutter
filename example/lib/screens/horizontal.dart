@@ -13,13 +13,13 @@ class _HorizontalState extends State<Horizontal> {
   bool _loop = true;
 
   // Scroll controller for carousel
-  InfiniteScrollController _controller;
+  late InfiniteScrollController _controller;
 
   // Maintain current index of carousel
   int _selectedIndex = 0;
 
   // Width of each item
-  double _itemExtent;
+  double? _itemExtent;
 
   // Get screen width of viewport.
   double get screenWidth => MediaQuery.of(context).size.width;
@@ -39,7 +39,7 @@ class _HorizontalState extends State<Horizontal> {
   @override
   void dispose() {
     super.dispose();
-    _controller?.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -54,7 +54,7 @@ class _HorizontalState extends State<Horizontal> {
               height: 200,
               child: InfiniteCarousel.builder(
                 itemCount: kDemoImages.length,
-                itemExtent: _itemExtent,
+                itemExtent: _itemExtent ?? 40,
                 loop: _loop,
                 controller: _controller,
                 onIndexChanged: (index) {
@@ -101,14 +101,14 @@ class _HorizontalState extends State<Horizontal> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RaisedButton.icon(
+                ElevatedButton.icon(
                   label: Text('Left'),
                   icon: Icon(Icons.arrow_left),
                   onPressed: () {
                     _controller.previousItem();
                   },
                 ),
-                RaisedButton.icon(
+                ElevatedButton.icon(
                   label: Text('Right'),
                   icon: Icon(Icons.arrow_right),
                   onPressed: () {
@@ -122,7 +122,7 @@ class _HorizontalState extends State<Horizontal> {
             Slider(
               min: 100.0,
               max: screenWidth - 100.0,
-              value: _itemExtent,
+              value: _itemExtent ?? 40,
               onChanged: (newValue) {
                 setState(() {
                   _itemExtent = newValue;

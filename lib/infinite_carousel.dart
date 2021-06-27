@@ -426,7 +426,7 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
 
   @override
   double get maxScrollExtent =>
-      loop ? super.maxScrollExtent : itemExtent * (itemCount - 1);
+      loop ? (super.hasContentDimensions ? super.maxScrollExtent : 0.0) : itemExtent * (itemCount - 1);
 
   @override
   int get itemIndex {

@@ -433,7 +433,8 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
     return _getItemFromOffset(
       offset: pixels,
       itemExtent: itemExtent,
-      minScrollExtent: minScrollExtent,
+      // 解决 Null check operator used on a null value
+      minScrollExtent: this.hasContentDimensions ? minScrollExtent : 0.0,
       maxScrollExtent: maxScrollExtent,
     );
   }
@@ -448,7 +449,9 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
-      minScrollExtent: minScrollExtent ?? this.minScrollExtent,
+      // 解决 Null check operator used on a null value
+      minScrollExtent: minScrollExtent ??
+          (this.hasContentDimensions ? this.minScrollExtent : 0.0),
       maxScrollExtent: maxScrollExtent ?? this.maxScrollExtent,
       pixels: pixels ?? this.pixels,
       viewportDimension: viewportDimension ?? this.viewportDimension,

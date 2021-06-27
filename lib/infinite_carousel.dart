@@ -344,7 +344,8 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
-      minScrollExtent: minScrollExtent ?? this.minScrollExtent,
+      minScrollExtent: minScrollExtent ??
+          (this.hasContentDimensions ? this.minScrollExtent : 0.0),
       maxScrollExtent: maxScrollExtent ?? this.maxScrollExtent,
       pixels: pixels ?? this.pixels,
       viewportDimension: viewportDimension ?? this.viewportDimension,

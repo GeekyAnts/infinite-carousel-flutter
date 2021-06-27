@@ -344,6 +344,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
+      // 解决 Null check operator used on a null value
       minScrollExtent: minScrollExtent ??
           (this.hasContentDimensions ? this.minScrollExtent : 0.0),
       maxScrollExtent: maxScrollExtent ?? this.maxScrollExtent,

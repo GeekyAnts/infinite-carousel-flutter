@@ -1,3 +1,7 @@
+## [1.0.1] - Jun 28, 2021
+
+- Fix: Null check operator used on null value.
+
 ## [1.0.0] - Apr 16, 2021
 
 - Null Safety.

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 
@@ -41,6 +43,15 @@ class _ComplexState extends State<Complex> {
                 center: _center,
                 anchor: _anchor,
                 velocityFactor: _velocityFactor,
+                scrollBehavior: kIsWeb
+                    ? ScrollConfiguration.of(context).copyWith(
+                        dragDevices: {
+                          // Allows to swipe in web browsers
+                          PointerDeviceKind.touch,
+                          PointerDeviceKind.mouse
+                        },
+                      )
+                    : null,
                 controller: _controller,
                 itemBuilder: (context, itemIndex, realIndex) {
                   final currentOffset = 120 * realIndex;

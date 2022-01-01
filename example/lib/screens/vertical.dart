@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 
@@ -19,6 +21,15 @@ class _VerticalState extends State<Vertical> {
           itemExtent: 300,
           loop: true,
           axisDirection: Axis.vertical,
+          scrollBehavior: kIsWeb
+              ? ScrollConfiguration.of(context).copyWith(
+                  dragDevices: {
+                    // Allows to swipe in web browsers
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.mouse
+                  },
+                )
+              : null,
           itemBuilder: (context, itemIndex, realIndex) {
             return Padding(
               padding: EdgeInsets.all(10.0),

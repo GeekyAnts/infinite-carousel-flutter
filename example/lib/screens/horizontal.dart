@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 
@@ -55,6 +57,15 @@ class _HorizontalState extends State<Horizontal> {
               child: InfiniteCarousel.builder(
                 itemCount: kDemoImages.length,
                 itemExtent: _itemExtent ?? 40,
+                scrollBehavior: kIsWeb
+                    ? ScrollConfiguration.of(context).copyWith(
+                        dragDevices: {
+                          // Allows to swipe in web browsers
+                          PointerDeviceKind.touch,
+                          PointerDeviceKind.mouse
+                        },
+                      )
+                    : null,
                 loop: _loop,
                 controller: _controller,
                 onIndexChanged: (index) {

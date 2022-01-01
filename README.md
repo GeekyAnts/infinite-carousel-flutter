@@ -25,7 +25,7 @@ Add the package to `pubspec.yaml`
 
 ```yaml
 dependencies:
-  infinite_carousel: ^1.0.1
+  infinite_carousel: ^1.0.2
 ```
 
 After that import the package.
@@ -76,9 +76,26 @@ It also supports its own scroll controller called _`InfiniteScrollController`_ w
 | axisDirection  | Axis                                                        | Axis direction of carousel.                                                                                                                                                                                                                                                                                                                                                                                                                                    | Axis.horizontal          |
 | center         | bool                                                        | Align selected item to center of the viewport. When this is true, anchor property is ignored.                                                                                                                                                                                                                                                                                                                                                                  | true                     |
 
+## Flutter web
+
+Earlier, flutter allowed scrolling the widgets by dragging using the mouse. Now, by default, it allows scrolling widgets to be dragged by all PointerDeviceKinds except for PointerDeviceKind.mouse.
+
+If you want to support scrolling by drag, please pass the explicit `ScrollBehavior` to InfiniteCarousel.
+
+```dart
+scrollBehavior: ScrollConfiguration.of(context).copyWith(
+  dragDevices: {
+    // Allows to swipe in web browsers
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse
+  },
+),
+```
+
+Reference: https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag
+
 ## Contributing
 
 Contributions of all kinds are welcome. Please read the [guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md) before contributing.
-
 
 Images used in the gifs belong to their original authors and the links can be found in example project.

@@ -30,6 +30,7 @@ class InfiniteCarousel extends StatefulWidget {
     this.velocityFactor = 0.2,
     this.axisDirection = Axis.horizontal,
     this.center = true,
+    this.scrollBehavior,
   })  : assert(itemExtent > 0),
         assert(itemCount > 0),
         assert(velocityFactor > 0.0 && velocityFactor <= 1.0),
@@ -74,6 +75,9 @@ class InfiniteCarousel extends StatefulWidget {
   /// Physics for [InfiniteCarousel]. Defaults to [InfiniteScrollPhysics], which makes sure we always land on a
   /// particular item after scrolling.
   final ScrollPhysics? physics;
+
+  /// Scroll behavior for [InfiniteCarousel].
+  final ScrollBehavior? scrollBehavior;
 
   /// Scroll controller for [InfiniteScrollPhysics].
   final ScrollController? controller;
@@ -181,6 +185,8 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
             itemCount: widget.itemCount,
             physics: widget.physics ?? InfiniteScrollPhysics(),
             axisDirection: axisDirection,
+            scrollBehavior: widget.scrollBehavior ??
+                ScrollConfiguration.of(context).copyWith(scrollbars: false),
             viewportBuilder: (BuildContext context, ViewportOffset position) {
               return Viewport(
                 center: _forwardListKey,
@@ -215,6 +221,7 @@ class _InfiniteScrollable extends Scrollable {
     AxisDirection axisDirection = AxisDirection.right,
     ScrollController? controller,
     ScrollPhysics? physics,
+    ScrollBehavior? scrollBehavior,
     required this.itemExtent,
     required this.itemCount,
     required this.loop,
@@ -226,6 +233,7 @@ class _InfiniteScrollable extends Scrollable {
           controller: controller,
           physics: physics,
           viewportBuilder: viewportBuilder,
+          scrollBehavior: scrollBehavior,
         );
 
   final double itemExtent;

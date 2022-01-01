@@ -1,3 +1,7 @@
+## [1.0.2] - Dec 24, 2021
+
+- Add support to send custom `ScrollBehavior` to widget. Fixes [this issue](https://github.com/GeekyAnts/infinite-carousel-flutter/issues/7).
+
 ## [1.0.1] - Jun 28, 2021
 
 - Fix: Null check operator used on null value.

@@ -14,6 +14,7 @@ class _ComplexState extends State<Complex> {
   double _anchor = 0.0;
   bool _center = true;
   double _velocityFactor = 0.2;
+  final double _itemExtent = 120;
   late InfiniteScrollController _controller;
 
   @override
@@ -39,7 +40,7 @@ class _ComplexState extends State<Complex> {
               height: 200,
               child: InfiniteCarousel.builder(
                 itemCount: kDemoImages.length,
-                itemExtent: 120,
+                itemExtent: _itemExtent,
                 center: _center,
                 anchor: _anchor,
                 velocityFactor: _velocityFactor,
@@ -54,13 +55,13 @@ class _ComplexState extends State<Complex> {
                     : null,
                 controller: _controller,
                 itemBuilder: (context, itemIndex, realIndex) {
-                  final currentOffset = 120 * realIndex;
+                  final currentOffset = _itemExtent * realIndex;
                   return AnimatedBuilder(
                     animation: _controller,
                     builder: (context, child) {
                       final diff = (_controller.offset - currentOffset);
                       final maxPadding = 10.0;
-                      final _carouselRatio = 120 / maxPadding;
+                      final _carouselRatio = _itemExtent / maxPadding;
 
                       return Padding(
                         padding: EdgeInsets.only(

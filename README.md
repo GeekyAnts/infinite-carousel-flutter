@@ -1,6 +1,9 @@
 # Infinite Carousel
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+[![Version](https://img.shields.io/pub/v/infinite_carousel.svg)](https://pub.dev/packages/infinite_carousel)
+![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+![Popularity](https://img.shields.io/pub/popularity/infinite_carousel?label=popularity)
+![Pub Likes](https://img.shields.io/pub/likes/infinite_carousel?label=likes)
 
 _Infinite Carousel_ is a flutter carousel widget that supports infinite looping and gives precise control over selected item anchor and carousel scroll velocity.
 
@@ -25,7 +28,7 @@ Add the package to `pubspec.yaml`
 
 ```yaml
 dependencies:
-  infinite_carousel: ^1.0.2
+  infinite_carousel: ^1.0.3
 ```
 
 After that import the package.

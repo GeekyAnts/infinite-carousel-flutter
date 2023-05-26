@@ -1,3 +1,9 @@
+## [1.0.3] - May 27, 2023
+
+- Upgrade package to support flutter 3.10
+- Add missing `devicePixelRatio` parameter and replace deprecated methods. Thanks to [PR #11](https://github.com/GeekyAnts/infinite-carousel-flutter/pull/11)
+- Update example app to fix Android embedding v1 errors.
+
 ## [1.0.2] - Dec 24, 2021
 
 - Add support to send custom `ScrollBehavior` to widget. Fixes [this issue](https://github.com/GeekyAnts/infinite-carousel-flutter/issues/7).

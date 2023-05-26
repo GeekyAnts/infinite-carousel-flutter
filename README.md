@@ -1,9 +1,10 @@
 # Infinite Carousel
 
 [![Version](https://img.shields.io/pub/v/infinite_carousel.svg)](https://pub.dev/packages/infinite_carousel)
-![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+[![pub points](https://img.shields.io/pub/points/infinite_carousel)](https://pub.dev/packages/infinite_carousel/score)
 ![Popularity](https://img.shields.io/pub/popularity/infinite_carousel?label=popularity)
 ![Pub Likes](https://img.shields.io/pub/likes/infinite_carousel?label=likes)
+[![GitHub issues by-label](https://img.shields.io/github/issues/GeekyAnts/infinite-carousel-flutter?label=issues)](https://github.com/GeekyAnts/infinite-carousel-flutter/issues)
 
 _Infinite Carousel_ is a flutter carousel widget that supports infinite looping and gives precise control over selected item anchor and carousel scroll velocity.
 

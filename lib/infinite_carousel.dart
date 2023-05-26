@@ -107,11 +107,11 @@ class InfiniteCarousel extends StatefulWidget {
   final bool center;
 
   @override
-  _InfiniteCarouselState createState() => _InfiniteCarouselState();
+  State<InfiniteCarousel> createState() => _InfiniteCarouselState();
 }
 
 class _InfiniteCarouselState extends State<InfiniteCarousel> {
-  final Key _forwardListKey = ValueKey<String>('infinite_carousel_key');
+  final Key _forwardListKey = const ValueKey<String>('infinite_carousel_key');
   late InfiniteScrollController scrollController;
   late int _lastReportedItemIndex;
 
@@ -175,7 +175,7 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
       },
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          final _centeredAnchor = _getCenteredAnchor(constraints);
+          final centeredAnchor = _getCenteredAnchor(constraints);
 
           return _InfiniteScrollable(
             controller: scrollController,
@@ -183,14 +183,14 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
             loop: widget.loop,
             velocityFactor: widget.velocityFactor,
             itemCount: widget.itemCount,
-            physics: widget.physics ?? InfiniteScrollPhysics(),
+            physics: widget.physics ?? const InfiniteScrollPhysics(),
             axisDirection: axisDirection,
             scrollBehavior: widget.scrollBehavior ??
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
             viewportBuilder: (BuildContext context, ViewportOffset position) {
               return Viewport(
                 center: _forwardListKey,
-                anchor: _centeredAnchor,
+                anchor: centeredAnchor,
                 axisDirection: axisDirection,
                 offset: position,
                 slivers: _buildSlivers(),
@@ -262,8 +262,8 @@ class InfiniteScrollController extends ScrollController {
 
   /// Returns selected Item index. If loop => true, then it returns the modded index value.
   int get selectedItem => _getTrueIndex(
-        (this.position as _InfiniteScrollPosition).itemIndex,
-        (this.position as _InfiniteScrollPosition).itemCount,
+        (position as _InfiniteScrollPosition).itemIndex,
+        (position as _InfiniteScrollPosition).itemCount,
       );
 
   /// Animate to specific item index.
@@ -333,6 +333,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
     required double? pixels,
     required double? viewportDimension,
     required AxisDirection axisDirection,
+    required double devicePixelRatio,
     required this.itemIndex,
   }) : super(
           minScrollExtent: minScrollExtent,
@@ -340,6 +341,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
           pixels: pixels,
           viewportDimension: viewportDimension,
           axisDirection: axisDirection,
+          devicePixelRatio: devicePixelRatio,
         );
 
   @override
@@ -349,16 +351,18 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
     double? pixels,
     double? viewportDimension,
     AxisDirection? axisDirection,
+    double? devicePixelRatio,
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
       // 解决 Null check operator used on a null value
       minScrollExtent: minScrollExtent ??
-          (this.hasContentDimensions ? this.minScrollExtent : 0.0),
+          (hasContentDimensions ? this.minScrollExtent : 0.0),
       maxScrollExtent: maxScrollExtent ?? this.maxScrollExtent,
       pixels: pixels ?? this.pixels,
       viewportDimension: viewportDimension ?? this.viewportDimension,
       axisDirection: axisDirection ?? this.axisDirection,
+      devicePixelRatio: devicePixelRatio ?? this.devicePixelRatio,
       itemIndex: itemIndex ?? this.itemIndex,
     );
   }
@@ -443,7 +447,7 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
       offset: pixels,
       itemExtent: itemExtent,
       // 解决 Null check operator used on a null value
-      minScrollExtent: this.hasContentDimensions ? minScrollExtent : 0.0,
+      minScrollExtent: hasContentDimensions ? minScrollExtent : 0.0,
       maxScrollExtent: maxScrollExtent,
     );
   }
@@ -455,16 +459,18 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
     double? pixels,
     double? viewportDimension,
     AxisDirection? axisDirection,
+    double? devicePixelRatio,
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
       // 解决 Null check operator used on a null value
       minScrollExtent: minScrollExtent ??
-          (this.hasContentDimensions ? this.minScrollExtent : 0.0),
+          (hasContentDimensions ? this.minScrollExtent : 0.0),
       maxScrollExtent: maxScrollExtent ?? this.maxScrollExtent,
       pixels: pixels ?? this.pixels,
       viewportDimension: viewportDimension ?? this.viewportDimension,
       axisDirection: axisDirection ?? this.axisDirection,
+      devicePixelRatio: devicePixelRatio ?? this.devicePixelRatio,
       itemIndex: itemIndex ?? this.itemIndex,
     );
   }
@@ -575,6 +581,7 @@ class InfiniteScrollPhysics extends ScrollPhysics {
     // Scenario 3:
     // If there's no velocity and we're already at where we intend to land,
     // do nothing.
+    final tolerance = toleranceFor(metrics);
     if (velocity.abs() < tolerance.velocity &&
         (settlingPixels - metrics.pixels).abs() < tolerance.distance) {
       return null;

@@ -6,15 +6,17 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import '../mock_data.dart';
 
 class Vertical extends StatefulWidget {
+  const Vertical({super.key});
+
   @override
-  _VerticalState createState() => _VerticalState();
+  State<Vertical> createState() => _VerticalState();
 }
 
 class _VerticalState extends State<Vertical> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Vertical Example')),
+      appBar: AppBar(title: const Text('Vertical Example')),
       body: SafeArea(
         child: InfiniteCarousel.builder(
           itemCount: kDemoImages.length,
@@ -32,7 +34,7 @@ class _VerticalState extends State<Vertical> {
               : null,
           itemBuilder: (context, itemIndex, realIndex) {
             return Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),

@@ -6,10 +6,12 @@ import 'screens/horizontal.dart';
 import 'screens/vertical.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,18 +20,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Infinite Carousel Demo'),
+      home: const MyHomePage(title: 'Infinite Carousel Demo'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -52,30 +54,36 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: Column(
-        children: [
-          ElevatedButton(
-            child: Text('Horizontal example'),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Horizontal()));
-            },
-          ),
-          ElevatedButton(
-            child: Text('Vertical example'),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Vertical()));
-            },
-          ),
-          ElevatedButton(
-            child: Text('Complex example'),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Complex()));
-            },
-          ),
-        ],
+      body: Container(
+        alignment: Alignment.topCenter,
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            ElevatedButton(
+              child: const Text('Horizontal example'),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const Horizontal()));
+              },
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              child: const Text('Vertical example'),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Vertical()));
+              },
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              child: const Text('Complex example'),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Complex()));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,10 @@
 # Infinite Carousel
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+[![Version](https://img.shields.io/pub/v/infinite_carousel.svg)](https://pub.dev/packages/infinite_carousel)
+[![pub points](https://img.shields.io/pub/points/infinite_carousel)](https://pub.dev/packages/infinite_carousel/score)
+![Popularity](https://img.shields.io/pub/popularity/infinite_carousel?label=popularity)
+![Pub Likes](https://img.shields.io/pub/likes/infinite_carousel?label=likes)
+[![GitHub issues by-label](https://img.shields.io/github/issues/GeekyAnts/infinite-carousel-flutter?label=issues)](https://github.com/GeekyAnts/infinite-carousel-flutter/issues)
 
 _Infinite Carousel_ is a flutter carousel widget that supports infinite looping and gives precise control over selected item anchor and carousel scroll velocity.
 
@@ -25,7 +29,7 @@ Add the package to `pubspec.yaml`
 
 ```yaml
 dependencies:
-  infinite_carousel: ^1.0.2
+  infinite_carousel: ^1.0.3
 ```
 
 After that import the package.
@@ -99,3 +103,13 @@ Reference: https://docs.flutter.dev/release/breaking-changes/default-scroll-beha
 Contributions of all kinds are welcome. Please read the [guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md) before contributing.
 
 Images used in the gifs belong to their original authors and the links can be found in example project.
+
+## Contributors
+
+<a href="https://github.com/GeekyAnts/infinite-carousel-flutter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=GeekyAnts/infinite-carousel-flutter" />
+</a>
+
+---
+
+Created by _Manuinder Sekhon_ ([Github](https://github.com/ManuSekhon))

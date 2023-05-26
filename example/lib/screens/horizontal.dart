@@ -6,8 +6,10 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import '../mock_data.dart';
 
 class Horizontal extends StatefulWidget {
+  const Horizontal({super.key});
+
   @override
-  _HorizontalState createState() => _HorizontalState();
+  State<Horizontal> createState() => _HorizontalState();
 }
 
 class _HorizontalState extends State<Horizontal> {
@@ -47,11 +49,11 @@ class _HorizontalState extends State<Horizontal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Horizontal Example')),
+      appBar: AppBar(title: const Text('Horizontal Example')),
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               height: 200,
               child: InfiniteCarousel.builder(
@@ -77,7 +79,7 @@ class _HorizontalState extends State<Horizontal> {
                 },
                 itemBuilder: (context, itemIndex, realIndex) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: GestureDetector(
                       onTap: () {
                         _controller.animateToItem(realIndex);
@@ -97,10 +99,10 @@ class _HorizontalState extends State<Horizontal> {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Current Index: $_selectedIndex'),
             SwitchListTile(
-              title: Text('Loop'),
+              title: const Text('Loop'),
               value: _loop,
               onChanged: (newValue) {
                 setState(() {
@@ -108,28 +110,28 @@ class _HorizontalState extends State<Horizontal> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton.icon(
-                  label: Text('Left'),
-                  icon: Icon(Icons.arrow_left),
+                  label: const Text('Left'),
+                  icon: const Icon(Icons.arrow_left),
                   onPressed: () {
                     _controller.previousItem();
                   },
                 ),
                 ElevatedButton.icon(
-                  label: Text('Right'),
-                  icon: Icon(Icons.arrow_right),
+                  label: const Text('Right'),
+                  icon: const Icon(Icons.arrow_right),
                   onPressed: () {
                     _controller.nextItem();
                   },
                 ),
               ],
             ),
-            SizedBox(height: 30.0),
-            Text('Adjustable Item Extent'),
+            const SizedBox(height: 30.0),
+            const Text('Adjustable Item Extent'),
             Slider(
               min: 100.0,
               max: screenWidth - 100.0,

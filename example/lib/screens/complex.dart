@@ -6,8 +6,10 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import '../mock_data.dart';
 
 class Complex extends StatefulWidget {
+  const Complex({super.key});
+
   @override
-  _ComplexState createState() => _ComplexState();
+  State<Complex> createState() => _ComplexState();
 }
 
 class _ComplexState extends State<Complex> {
@@ -32,7 +34,7 @@ class _ComplexState extends State<Complex> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Complex Example')),
+      appBar: AppBar(title: const Text('Complex Example')),
       body: SafeArea(
         child: Column(
           children: [
@@ -60,19 +62,19 @@ class _ComplexState extends State<Complex> {
                     animation: _controller,
                     builder: (context, child) {
                       final diff = (_controller.offset - currentOffset);
-                      final maxPadding = 10.0;
-                      final _carouselRatio = _itemExtent / maxPadding;
+                      const maxPadding = 10.0;
+                      final carouselRatio = _itemExtent / maxPadding;
 
                       return Padding(
                         padding: EdgeInsets.only(
-                          top: (diff / _carouselRatio).abs(),
-                          bottom: (diff / _carouselRatio).abs(),
+                          top: (diff / carouselRatio).abs(),
+                          bottom: (diff / carouselRatio).abs(),
                         ),
                         child: child,
                       );
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(2.0),
+                      padding: const EdgeInsets.all(2.0),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -88,9 +90,9 @@ class _ComplexState extends State<Complex> {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SwitchListTile(
-              title: Text('Center selected element'),
+              title: const Text('Center selected element'),
               value: _center,
               onChanged: (newValue) {
                 setState(() {
@@ -98,7 +100,7 @@ class _ComplexState extends State<Complex> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             if (!_center) ...[
               Text('Selected Item Anchor: ${_anchor.toStringAsFixed(2)}'),
               Slider(
@@ -112,7 +114,7 @@ class _ComplexState extends State<Complex> {
                 },
               ),
             ],
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Velocity Factor: ${_velocityFactor.toStringAsFixed(2)}'),
             Slider(
               min: 0.1,

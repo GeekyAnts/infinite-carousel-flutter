@@ -333,6 +333,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
     required double? pixels,
     required double? viewportDimension,
     required AxisDirection axisDirection,
+    required double devicePixelRatio,
     required this.itemIndex,
   }) : super(
           minScrollExtent: minScrollExtent,
@@ -340,6 +341,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
           pixels: pixels,
           viewportDimension: viewportDimension,
           axisDirection: axisDirection,
+          devicePixelRatio: devicePixelRatio,
         );
 
   @override
@@ -349,6 +351,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
     double? pixels,
     double? viewportDimension,
     AxisDirection? axisDirection,
+    double? devicePixelRatio,
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
@@ -359,6 +362,7 @@ class InfiniteExtentMetrics extends FixedScrollMetrics {
       pixels: pixels ?? this.pixels,
       viewportDimension: viewportDimension ?? this.viewportDimension,
       axisDirection: axisDirection ?? this.axisDirection,
+      devicePixelRatio: devicePixelRatio ?? this.devicePixelRatio,
       itemIndex: itemIndex ?? this.itemIndex,
     );
   }
@@ -455,6 +459,7 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
     double? pixels,
     double? viewportDimension,
     AxisDirection? axisDirection,
+    double? devicePixelRatio,
     int? itemIndex,
   }) {
     return InfiniteExtentMetrics(
@@ -465,6 +470,7 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
       pixels: pixels ?? this.pixels,
       viewportDimension: viewportDimension ?? this.viewportDimension,
       axisDirection: axisDirection ?? this.axisDirection,
+      devicePixelRatio: devicePixelRatio ?? this.devicePixelRatio,
       itemIndex: itemIndex ?? this.itemIndex,
     );
   }
@@ -575,6 +581,7 @@ class InfiniteScrollPhysics extends ScrollPhysics {
     // Scenario 3:
     // If there's no velocity and we're already at where we intend to land,
     // do nothing.
+    final tolerance = toleranceFor(metrics);
     if (velocity.abs() < tolerance.velocity &&
         (settlingPixels - metrics.pixels).abs() < tolerance.distance) {
       return null;

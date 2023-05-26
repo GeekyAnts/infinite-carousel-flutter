@@ -103,3 +103,13 @@ Reference: https://docs.flutter.dev/release/breaking-changes/default-scroll-beha
 Contributions of all kinds are welcome. Please read the [guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md) before contributing.
 
 Images used in the gifs belong to their original authors and the links can be found in example project.
+
+## Contributors
+
+<a href="https://github.com/GeekyAnts/infinite-carousel-flutter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=GeekyAnts/infinite-carousel-flutter" />
+</a>
+
+---
+
+Created by _Manuinder Sekhon_ ([Github](https://github.com/ManuSekhon))

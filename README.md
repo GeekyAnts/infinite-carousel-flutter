@@ -100,7 +100,7 @@ Reference: https://docs.flutter.dev/release/breaking-changes/default-scroll-beha
 
 ## Contributing
 
-Contributions of all kinds are welcome. Please read the [guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md) before contributing.
+Contributions of all kinds are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md) before raising issues and creating new pull requests.
 
 Images used in the gifs belong to their original authors and the links can be found in example project.
 
@@ -112,4 +112,4 @@ Images used in the gifs belong to their original authors and the links can be fo
 
 ---
 
-Created by _Manuinder Sekhon_ ([Github](https://github.com/ManuSekhon))
+_Manuinder Sekhon_ @ _GeekyAnts_ ([Github](https://github.com/ManuSekhon))

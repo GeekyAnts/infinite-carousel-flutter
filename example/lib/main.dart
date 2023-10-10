@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Infinite Carousel Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Infinite Carousel Demo'),
     );
@@ -62,24 +62,21 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               child: const Text('Horizontal example'),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const Horizontal()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Horizontal()));
               },
             ),
             const SizedBox(height: 30),
             ElevatedButton(
               child: const Text('Vertical example'),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Vertical()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Vertical()));
               },
             ),
             const SizedBox(height: 30),
             ElevatedButton(
               child: const Text('Complex example'),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Complex()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Complex()));
               },
             ),
           ],

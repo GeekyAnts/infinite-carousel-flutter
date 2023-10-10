@@ -1,6 +1,6 @@
-# infinite_carousel_example
+# example
 
-Demonstrates how to use the infinite_carousel plugin.
+A new Flutter project.
 
 ## Getting Started
 

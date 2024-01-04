@@ -118,7 +118,7 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller != null) {
+    if (widget.controller != null && widget.controller is InfiniteScrollController) {
       scrollController = widget.controller as InfiniteScrollController;
     } else {
       scrollController = InfiniteScrollController();
@@ -158,7 +158,7 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
 
     return NotificationListener<ScrollUpdateNotification>(
       onNotification: (ScrollUpdateNotification notification) {
-        if (widget.onIndexChanged != null) {
+        if (widget.onIndexChanged != null && notification.metrics is InfiniteExtentMetrics) {
           final InfiniteExtentMetrics metrics =
               notification.metrics as InfiniteExtentMetrics;
           final int currentItem = metrics.itemIndex;

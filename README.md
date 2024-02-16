@@ -52,7 +52,7 @@ or
 
 ```yaml
 dependencies:
-  infinite_carousel: ^1.0.3
+  infinite_carousel: ^1.1.0
 ```
 
 After that import the package.

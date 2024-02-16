@@ -1,3 +1,12 @@
+## 1.1.0
+
+- Add alternate scroll physics:- `PageViewTypeScrollPhysics`.
+
+Similar to PageView scroll physics. This disables friction effect and allows the user to land on the next item only most of the time, instead of the free-hand scrolling that is provided with the default `InfiniteScrollPhysics`.
+
+- Fixed issue:- 'FixedScrollMetrics' is not a subtype of type 'InfiniteExtentMetrics' in type cast. Thanks to [PR #19](https://github.com/GeekyAnts/infinite-carousel-flutter/pull/19)
+- Update package to support Flutter 3.19
+
 ## 1.0.3
 
 - Upgrade package to support flutter 3.10

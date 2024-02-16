@@ -69,8 +69,14 @@ class InfiniteCarousel extends StatefulWidget {
   /// Delegate to lazily build items in reverse direction.
   final SliverChildDelegate? reversedChildDelegate;
 
-  /// Physics for [InfiniteCarousel]. Defaults to [InfiniteScrollPhysics], which makes sure we always land on a
-  /// particular item after scrolling.
+  /// Types of Physics supported by [InfiniteCarousel].
+  ///
+  /// [InfiniteScrollPhysics], which makes sure we always land on a particular item after scrolling. This is the
+  /// `default` physics for [InfiniteCarousel].
+  ///
+  /// [PageViewTypeScrollPhysics], which behaves like Flutter's [PageView] physics. This disables friction effect
+  /// and allows the user to land on the next item only most of the time, instead of the free-hand scrolling that
+  /// is provided with the default [InfiniteScrollPhysics].
   final ScrollPhysics? physics;
 
   /// Scroll behavior for [InfiniteCarousel].
@@ -585,4 +591,61 @@ class InfiniteScrollPhysics extends ScrollPhysics {
       tolerance.velocity * metrics.velocityFactor * velocity.sign,
     );
   }
+}
+
+///
+/// Alternate physics for [InfiniteCarousel].
+///
+/// This behaves like [PageScrollPhysics], that is used by default in Flutter's [PageView] widget. This disables friction
+/// effect and allows the user to land on the next item only most of the time, instead of the free-hand scrolling
+/// that is provided with the default [InfiniteScrollPhysics].
+///
+class PageViewTypeScrollPhysics extends ScrollPhysics {
+  const PageViewTypeScrollPhysics({super.parent});
+
+  @override
+  PageViewTypeScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return PageViewTypeScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  double _getTargetPixels(
+      _InfiniteScrollPosition metrics, Tolerance tolerance, double velocity) {
+    int item = metrics.itemIndex;
+    if (velocity * metrics.velocityFactor < -tolerance.velocity) {
+      item -= 1;
+    } else if (velocity > tolerance.velocity) {
+      item += 1;
+    }
+    return item * metrics.itemExtent;
+  }
+
+  @override
+  Simulation? createBallisticSimulation(
+      ScrollMetrics position, double velocity) {
+    final _InfiniteScrollPosition metrics = position as _InfiniteScrollPosition;
+
+    // If we're out of range and not headed back in range, defer to the parent
+    // ballistics, which should put us back in range at a page boundary.
+    if ((velocity <= 0.0 && metrics.pixels <= metrics.minScrollExtent) ||
+        (velocity >= 0.0 && metrics.pixels >= metrics.maxScrollExtent)) {
+      return super.createBallisticSimulation(metrics, velocity);
+    }
+
+    final Tolerance tolerance = toleranceFor(metrics);
+    final double targetPixels = _getTargetPixels(metrics, tolerance, velocity);
+
+    if (targetPixels != metrics.pixels) {
+      return ScrollSpringSimulation(
+        spring,
+        metrics.pixels,
+        targetPixels,
+        velocity * metrics.velocityFactor,
+        tolerance: tolerance,
+      );
+    }
+    return null;
+  }
+
+  @override
+  bool get allowImplicitScrolling => false;
 }

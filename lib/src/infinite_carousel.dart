@@ -611,7 +611,7 @@ class PageViewTypeScrollPhysics extends ScrollPhysics {
   double _getTargetPixels(
       _InfiniteScrollPosition metrics, Tolerance tolerance, double velocity) {
     int item = metrics.itemIndex;
-    if (velocity * metrics.velocityFactor < -tolerance.velocity) {
+    if (velocity < -tolerance.velocity) {
       item -= 1;
     } else if (velocity > tolerance.velocity) {
       item += 1;
@@ -639,7 +639,7 @@ class PageViewTypeScrollPhysics extends ScrollPhysics {
         spring,
         metrics.pixels,
         targetPixels,
-        velocity * metrics.velocityFactor,
+        velocity,
         tolerance: tolerance,
       );
     }

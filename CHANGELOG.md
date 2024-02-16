@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Lower Dart SDK version to 3.2.1
+
 ## 1.1.0
 
 - Add alternate scroll physics:- `PageViewTypeScrollPhysics`.

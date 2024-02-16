@@ -16,7 +16,7 @@ class InfiniteCarousel extends StatefulWidget {
   ///
   /// Based on [ListWheelScrollView] to create smooth scroll effect and physics.
   InfiniteCarousel.builder({
-    Key? key,
+    super.key,
     required this.itemCount,
     required this.itemExtent,
     required this.itemBuilder,
@@ -42,8 +42,7 @@ class InfiniteCarousel extends StatefulWidget {
                 (context, index) => itemBuilder(context,
                     itemCount - (index.abs() % itemCount) - 1, -(index + 1)),
               )
-            : null,
-        super(key: key);
+            : null;
 
   /// Total items to build for the carousel.
   final int itemCount;
@@ -215,24 +214,16 @@ class _InfiniteCarouselState extends State<InfiniteCarousel> {
 /// This is done so that ScrollPosition and Physics can also access these values via scroll context.
 class _InfiniteScrollable extends Scrollable {
   const _InfiniteScrollable({
-    Key? key,
-    AxisDirection axisDirection = AxisDirection.right,
-    ScrollController? controller,
-    ScrollPhysics? physics,
-    ScrollBehavior? scrollBehavior,
+    super.axisDirection = AxisDirection.right,
+    super.controller,
+    super.physics,
+    super.scrollBehavior,
     required this.itemExtent,
     required this.itemCount,
     required this.loop,
     required this.velocityFactor,
-    required ViewportBuilder viewportBuilder,
-  }) : super(
-          key: key,
-          axisDirection: axisDirection,
-          controller: controller,
-          physics: physics,
-          viewportBuilder: viewportBuilder,
-          scrollBehavior: scrollBehavior,
-        );
+    required super.viewportBuilder,
+  });
 
   final double itemExtent;
   final int itemCount;
@@ -326,21 +317,14 @@ class InfiniteScrollController extends ScrollController {
 /// This can directly be accessed by ScrollNotification to currently selected real item index at any time.
 class InfiniteExtentMetrics extends FixedScrollMetrics {
   InfiniteExtentMetrics({
-    required double? minScrollExtent,
-    required double? maxScrollExtent,
-    required double? pixels,
-    required double? viewportDimension,
-    required AxisDirection axisDirection,
-    required double devicePixelRatio,
+    required super.minScrollExtent,
+    required super.maxScrollExtent,
+    required super.pixels,
+    required super.viewportDimension,
+    required super.axisDirection,
+    required super.devicePixelRatio,
     required this.itemIndex,
-  }) : super(
-          minScrollExtent: minScrollExtent,
-          maxScrollExtent: maxScrollExtent,
-          pixels: pixels,
-          viewportDimension: viewportDimension,
-          axisDirection: axisDirection,
-          devicePixelRatio: devicePixelRatio,
-        );
+  });
 
   @override
   InfiniteExtentMetrics copyWith({
@@ -398,20 +382,13 @@ int _getTrueIndex(int currentIndex, int totalCount) {
 class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
     implements InfiniteExtentMetrics {
   _InfiniteScrollPosition({
-    required ScrollPhysics physics,
-    required ScrollContext context,
+    required super.physics,
+    required super.context,
     required int initialItem,
-    bool keepScrollOffset = true,
-    ScrollPosition? oldPosition,
-    String? debugLabel,
+    super.oldPosition,
   })  : assert(context is _InfiniteScrollableState),
         super(
-          physics: physics,
-          context: context,
           initialPixels: _getItemExtentFromScrollContext(context) * initialItem,
-          keepScrollOffset: keepScrollOffset,
-          oldPosition: oldPosition,
-          debugLabel: debugLabel,
         );
 
   double get itemExtent => _getItemExtentFromScrollContext(context);
@@ -481,7 +458,7 @@ class _InfiniteScrollPosition extends ScrollPositionWithSingleContext
 /// If loop => false, friction is applied when user tries to go beyond Viewport area.
 /// Friction factor is calculated the way its done in BouncingScrollPhycics.
 class InfiniteScrollPhysics extends ScrollPhysics {
-  const InfiniteScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
+  const InfiniteScrollPhysics({super.parent});
 
   @override
   InfiniteScrollPhysics applyTo(ScrollPhysics? ancestor) {
